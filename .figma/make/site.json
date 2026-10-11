@@ -1,0 +1,10 @@
+{
+  "description": "Showcase your professional achievements with a sleek portfolio featuring a hero section, organized project displays, and an interactive AI chatbot for engagement.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

@@ -463,14 +463,14 @@ export default function App() {
               <div className="flex justify-between items-start mb-1 flex-col sm:flex-row sm:items-center gap-2">
                 <h3 className="text-lg font-semibold text-foreground">Management Information System Analyst</h3>
                 <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/25 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Sep 2026 — Present
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  Sep 2026 — Oct 2026
                 </span>
               </div>
               <div className="flex items-center gap-2 mb-3 flex-wrap">
                 <p className="text-sm font-medium text-slate-400">TrinexGlobal</p>
                 <span className="text-[10px] font-mono text-muted-foreground bg-secondary px-2 py-0.5 rounded border border-border">Remote · Internship</span>
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">Currently Working</span>
+                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">Completed Internship</span>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 items-start">

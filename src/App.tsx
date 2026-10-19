@@ -56,6 +56,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('about');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
+  const [isPortraitColor, setIsPortraitColor] = useState(false);
 
   // Interactive AI Assistant State
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
@@ -67,6 +68,7 @@ export default function App() {
   ]);
   const [chatInput, setChatInput] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
+  const chatMessagesRef = useRef<HTMLDivElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Interactive Direct Message State
@@ -114,7 +116,7 @@ export default function App() {
         });
       },
       {
-        threshold: 0.08,
+        threshold: 0,
         rootMargin: '0px 0px -40px 0px',
       }
     );
@@ -134,7 +136,13 @@ export default function App() {
 
   // Scroll chat to bottom on new message
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const chatMessagesElement = chatMessagesRef.current;
+    if (chatMessagesElement) {
+      chatMessagesElement.scrollTo({
+        top: chatMessagesElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }, [chatMessages, isAiTyping]);
 
   // Handle escape key for lightbox & sidebar
@@ -181,15 +189,15 @@ export default function App() {
     let reply = "Aswini Kumar Singh is a Computer Science Engineering student ('28) with a 8.77 CGPA, focusing on Data Analytics and Full-Stack Development.";
 
     if (q.includes('project') || q.includes('ecommerce') || q.includes('power bi')) {
-      reply = "Aswini's flagship projects include:\n\n1. 📊 **E-Commerce Data Analysis Dashboard**: An interactive Power BI & Excel dashboard analyzing sales, profits, and customer segmentation.\n2. 📄 **Resumind**: An ATS Resume Analyzer built with React, TypeScript, Vite & Node.js.\n3. 🛠️ **Tool Sarrthi**: A peer-to-peer equipment sharing marketplace with React & Supabase.";
+      reply = "Aswini's flagship projects include:\n\n1. 📊 E-Commerce Data Analysis Dashboard: An interactive Power BI & Excel dashboard analyzing sales, profits, and customer segmentation.\n2. 📄 Resumind: An ATS Resume Analyzer built with React, TypeScript, Vite & Node.js.\n3. 🛠️ Tool Sarrthi: A peer-to-peer equipment sharing marketplace with React & Supabase.";
     } else if (q.includes('skill') || q.includes('stack') || q.includes('language') || q.includes('tech')) {
-      reply = "Aswini's core technical toolkit includes:\n\n• **Languages**: Python, SQL, C, C++, Java, JavaScript, TypeScript\n• **Frameworks & Web**: React, Django, Node.js, Vite, HTML5/CSS3\n• **Data Analytics**: Power BI, Excel, EDA, Data Cleaning\n• **Tools**: Git, Supabase, VS Code, Linux";
+      reply = "Aswini's core technical toolkit includes:\n\n• Languages: Python, SQL, C, C++, Java, JavaScript, TypeScript\n• Frameworks & Web: React, Django, Node.js, Vite, HTML5/CSS3\n• Data Analytics: Power BI, Excel, EDA, Data Cleaning\n• Tools: Git, Supabase, VS Code, Linux";
     } else if (q.includes('intern') || q.includes('experience') || q.includes('3skill')) {
-      reply = "Aswini completed a 2-Month Data Analyst Virtual Internship at 3Skill Training (Certificate ID: ID-INTERN262614), focusing on data cleaning, exploratory data analysis (EDA), SQL queries, and interactive dashboard creation.";
+      reply = "Aswini's internship experience includes two roles:\n\n1. TrinexGlobal — Management Information System Analyst (Remote, Sep–Oct 2026; completed). Worked on MIS reporting, data organization, and system analysis to support business decisions and operational efficiency.\n\n2. 3 Skill Internship — Data Analyst Virtual Internship (Jul–Aug 2026; two months). Analyzed and cleaned datasets, performed exploratory data analysis (EDA), used Excel, SQL, Python, and visualization tools, and created reports and interactive dashboards. Certificate ID: ID-INTERN262614.";
     } else if (q.includes('tedx') || q.includes('anantam') || q.includes('lead') || q.includes('event') || q.includes('volunteer')) {
-      reply = "Aswini has notable leadership experience:\n\n• **TEDxPCU 2026**: Logistics Lead managing resource allocation, team schedules, and on-ground operations.\n• **Anantam Cultural Fest 2026**: Lead organizer for the Off-Stage Treasure Hunt, earning an Appreciation Certificate and Trophy for standout coordination!";
+      reply = "Aswini has notable leadership experience:\n\n• TEDxPCU 2026: Logistics Lead managing resource allocation, team schedules, and on-ground operations.\n• Anantam Cultural Fest 2026: Lead organizer for the Off-Stage Treasure Hunt, earning an Appreciation Certificate and Trophy for standout coordination!";
     } else if (q.includes('hackathon') || q.includes('heartwell')) {
-      reply = "At the Innovators Hackathon 2026 (NMIET Campus & AIC T-Hub), Aswini developed **Family HeartWell**, a healthtech concept designed to connect remote parents and children through shared medication schedules and vital tracking.";
+      reply = "At the Innovators Hackathon 2026 (NMIET Campus & AIC T-Hub), Aswini developed Family HeartWell, a healthtech concept designed to connect remote parents and children through shared medication schedules and vital tracking.";
     } else if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('reach')) {
       reply = "You can contact Aswini directly via email at singhaswini19@gmail.com, call +91 8116677579, or message him through LinkedIn (linkedin.com/in/aswini-kumar-singh-422b78312)!";
     }
@@ -253,7 +261,7 @@ export default function App() {
 
       {/* FLOATING ISLAND GLASS NAVBAR */}
       <header className="sticky top-4 z-30 w-full px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto glass-nav rounded-full px-4 sm:px-6 py-2.5 flex justify-between items-center shadow-2xl">
+        <div className="max-w-4xl mx-auto glass-nav rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 flex flex-wrap sm:flex-nowrap justify-between items-center gap-y-2 shadow-2xl">
           {/* Logo / Brand */}
           <a href="#about" className="flex items-center gap-2 font-mono text-xs tracking-widest uppercase hover:text-primary transition-colors">
             <span className="relative flex h-2.5 w-2.5">
@@ -264,7 +272,7 @@ export default function App() {
           </a>
 
           {/* Navigation Links */}
-          <nav className="flex items-center gap-1 sm:gap-2">
+          <nav className="order-3 sm:order-none w-full sm:w-auto min-w-0 max-w-full flex flex-wrap sm:flex-nowrap items-center gap-1 sm:gap-2 whitespace-normal sm:whitespace-nowrap">
             {[
               { id: 'about', label: 'About' },
               { id: 'experience', label: 'Experience' },
@@ -277,7 +285,7 @@ export default function App() {
                 key={item.id}
                 href={`#${item.id}`}
                 className={cn(
-                  "text-xs font-mono px-2.5 py-1 rounded-full transition-all duration-200",
+                  "shrink-0 text-xs font-mono px-2.5 py-1 rounded-full transition-all duration-200",
                   activeSection === item.id
                     ? "bg-primary/15 text-primary font-medium border border-primary/30"
                     : "text-muted-foreground hover:text-foreground hover:bg-white/5"
@@ -289,7 +297,7 @@ export default function App() {
 
             <button
               onClick={() => openDrawer('message')}
-              className="ml-1 sm:ml-2 text-xs font-mono px-3 py-1 bg-gradient-to-r from-primary/90 to-accent/90 text-primary-foreground font-semibold rounded-full hover:opacity-95 hover:shadow-lg hover:shadow-primary/20 transition-all cursor-pointer"
+              className="ml-1 sm:ml-2 shrink-0 text-xs font-mono px-3 py-1 bg-gradient-to-r from-primary/90 to-accent/90 text-primary-foreground font-semibold rounded-full hover:opacity-95 hover:shadow-lg hover:shadow-primary/20 transition-all cursor-pointer"
             >
               Contact
             </button>
@@ -298,7 +306,7 @@ export default function App() {
       </header>
 
       {/* MAIN CONTENT CONTAINER */}
-      <main className="flex-1 w-full max-w-4xl mx-auto px-6 md:px-12 py-10 md:py-14 space-y-24 relative z-10">
+      <main className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-12 py-8 sm:py-10 md:py-14 space-y-16 sm:space-y-24 relative z-10">
 
         {/* ============================================================ */}
         {/* SECTION 1: HERO & ABOUT                                     */}
@@ -314,17 +322,31 @@ export default function App() {
           <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
 
             {/* Interactive Avatar with Multi-layer Glow */}
-            <div className="relative group shrink-0">
+            <div className="relative group shrink-0 self-center md:self-start">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-3xl blur-md opacity-40 group-hover:opacity-80 transition duration-500 group-hover:duration-200"></div>
 
-              <div className="w-36 h-36 md:w-44 md:h-44 relative rounded-2xl overflow-hidden border border-white/20 bg-card shadow-2xl rotate-1 group-hover:rotate-0 transition-transform duration-500">
+              <button
+                type="button"
+                onClick={() => setIsPortraitColor((isColor) => !isColor)}
+                aria-label={isPortraitColor ? "Show portrait in black and white" : "Show portrait in color"}
+                aria-pressed={isPortraitColor}
+                className="block w-36 h-36 md:w-44 md:h-44 relative rounded-2xl overflow-hidden border border-white/20 bg-card shadow-2xl rotate-1 group-hover:rotate-0 transition-transform duration-500 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+              >
                 <img
                   src="/attachment-1.png"
                   alt="Aswini Kumar Singh"
-                  className="w-full h-full object-cover object-top filter grayscale group-hover:grayscale-0 scale-105 group-hover:scale-100 transition-all duration-700"
+                  className={cn(
+                    "w-full h-full object-cover object-top transition-all duration-700",
+                    isPortraitColor
+                      ? "grayscale-0 scale-100"
+                      : "grayscale group-hover:grayscale-0 scale-105 group-hover:scale-100"
+                  )}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </div>
+                <div className={cn(
+                  "absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent transition-opacity duration-300",
+                  isPortraitColor ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                )}></div>
+              </button>
             </div>
 
             {/* Profile Intro & Title */}
@@ -1195,7 +1217,7 @@ export default function App() {
             </div>
 
             {/* Messages Scroll Area */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+            <div ref={chatMessagesRef} className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
               {chatMessages.map(msg => (
                 <div
                   key={msg.id}
